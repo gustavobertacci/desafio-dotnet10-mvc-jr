@@ -45,7 +45,7 @@ Avaliar, de forma prática:
 | .NET | 10 |
 | ASP.NET Core MVC | Razor Views (não SPA, não Blazor, não Web API pura) |
 | Bootstrap | 5 |
-| Banco de dados | Relacional — **SQLite** ou **SQL Server** |
+| Banco de dados | Relacional — **SQL Server Express** |
 | Acesso a dados | **Sua escolha:** Entity Framework Core, Dapper ou ADO.NET |
 
 O ponto de partida está em [`template-src/`](template-src/). Abra
