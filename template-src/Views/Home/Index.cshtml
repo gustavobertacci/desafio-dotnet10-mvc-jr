@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="p-4 p-md-5 mb-4 bg-light rounded-3 border">
+    <h1 class="display-6">Desafio Técnico .NET 10 MVC</h1>
+    <p class="lead mb-0">
+        Avaliação técnica para a vaga de Desenvolvedor(a) Fullstack .NET Júnior.
+    </p>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-7">
+        <h2 class="h4">O que você vai construir</h2>
+        <p>
+            Um CRUD de produtos em ASP.NET Core MVC com Razor Views, persistindo os dados
+            em um banco relacional. Além das operações básicas, a aplicação deve permitir
+            buscar produtos por nome e ordenar a listagem por nome e por preço.
+        </p>
+        <p>
+            Este projeto é apenas o ponto de partida: o model <code>Produto</code>, o
+            layout e os stubs de controller já existem. O acesso a dados foi deixado em
+            aberto de propósito — a escolha entre Entity Framework Core, Dapper ou
+            ADO.NET é sua, e queremos entender o motivo.
+        </p>
+        <p class="mb-0">
+            <strong>Não buscamos a solução mais complexa.</strong> Clareza, organização e
+            decisões bem justificadas valem mais do que abstrações desnecessárias.
+        </p>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header">Por onde começar</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><code>docs/desafio.md</code> — requisitos completos</li>
+                <li class="list-group-item"><code>docs/criterios-avaliacao.md</code> — como pontuamos</li>
+                <li class="list-group-item"><code>docs/entrega.md</code> — o que enviar</li>
+                <li class="list-group-item"><code>database/create_database.sql</code> — seu script SQL</li>
+            </ul>
+            <div class="card-body">
+                <a class="btn btn-primary" asp-controller="Produto" asp-action="Index">
+                    Ir para Produtos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

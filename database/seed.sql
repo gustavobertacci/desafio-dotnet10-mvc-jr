@@ -1,0 +1,3 @@
+/*
+Script opcional para carga inicial.
+*/
