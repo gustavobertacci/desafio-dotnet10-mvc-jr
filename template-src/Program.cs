@@ -1,15 +1,20 @@
+using Desafio.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Registro dos serviços do MVC (Controllers + Views).
 builder.Services.AddControllersWithViews();
 
-// -----------------------------------------------------------------------------
-// ATENÇÃO CANDIDATO(A)
-//
-// O acesso a dados NÃO está configurado de propósito.
-// Escolha a abordagem que preferir (Entity Framework Core, Dapper ou ADO.NET),
-// registre-a aqui e justifique a decisão no README.
-// -----------------------------------------------------------------------------
+// Obtém a string de conexão configurada no appsettings.json.
+var connectionString = builder.Configuration
+    .GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException(
+        "A connection string 'DefaultConnection' não foi configurada.");
+
+// Registra o contexto do Entity Framework Core utilizando SQL Server.
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
