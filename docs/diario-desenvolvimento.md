@@ -261,3 +261,70 @@ opções escritas por extenso. Essa solução ficou mais simples de entender e d
 
 O ChatGPT auxiliou na criação do ViewModel, na montagem da consulta com LINQ, na
 preservação conjunta dos filtros e na revisão da clareza dos controles da interface.
+## Etapa 6 — Funcionalidade adicional: paginação
+
+### Motivo da escolha
+
+A paginação foi escolhida porque a quantidade de produtos pode crescer com o uso do
+sistema. Exibir todos os registros de uma só vez deixaria a página mais extensa e
+poderia aumentar o volume de dados consultados no banco.
+
+Também foi uma escolha que combinou naturalmente com a busca e a ordenação já
+implementadas.
+
+### Valor agregado
+
+A paginação limita a listagem a cinco produtos por página, tornando a navegação mais
+organizada e evitando que todos os registros sejam carregados ao mesmo tempo.
+
+Os controles mostram a página atual e permitem navegar pelas páginas anterior,
+seguinte ou por número.
+
+A busca e a ordenação são preservadas durante a navegação.
+
+### Implementação
+
+O total de produtos filtrados é calculado com `CountAsync`.
+
+O método `Skip` ignora os registros das páginas anteriores e o método `Take` limita
+a consulta a cinco registros.
+
+A quantidade de páginas é calculada a partir do total de produtos e do tamanho da
+página. Valores de página inválidos, como zero, números negativos ou números maiores
+que o total, são ajustados para uma página válida.
+
+A ordenação recebe critérios adicionais com `ThenBy` para manter resultados estáveis
+entre as páginas quando dois produtos possuem o mesmo nome ou preço.
+
+### Alternativas consideradas
+
+Foram consideradas outras funcionalidades adicionais:
+
+- Exportação para CSV, que seria útil para relatórios, mas não melhoraria diretamente
+  a navegação diária da listagem.
+- Categorias de produtos, que exigiriam novas tabelas, relacionamento e alterações
+  maiores no escopo.
+- Filtro por faixa de preço, que seria útil, mas agregaria menos valor com uma
+  quantidade pequena de campos.
+- Testes automatizados, que continuam registrados como uma melhoria futura.
+
+A paginação foi escolhida por entregar valor visível ao usuário sem aumentar
+desnecessariamente a complexidade do projeto.
+
+### Testes realizados
+
+- Primeira página limitada a cinco produtos.
+- Navegação para a segunda página.
+- Botões anterior e próxima habilitados e desabilitados corretamente.
+- Página atual destacada.
+- Busca junto com paginação.
+- Ordenação junto com paginação.
+- Busca, ordenação e paginação usadas ao mesmo tempo.
+- Página zero corrigida para a primeira página.
+- Página acima do total corrigida para a última página.
+
+### Uso de Inteligência Artificial
+
+O ChatGPT auxiliou na explicação dos métodos `Count`, `Skip` e `Take`, na criação das
+propriedades de paginação no ViewModel, na preservação dos filtros nos links e na
+elaboração dos cenários de teste.

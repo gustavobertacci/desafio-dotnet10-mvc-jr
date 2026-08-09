@@ -62,6 +62,13 @@
     </div>
 </form>
 
+<p class="text-muted">
+    @Model.TotalProdutos
+    @(Model.TotalProdutos == 1
+        ? "produto encontrado"
+        : "produtos encontrados")
+</p>
+
 @if (!Model.Produtos.Any())
 {
     if (!string.IsNullOrWhiteSpace(Model.Busca))
@@ -126,4 +133,65 @@ else
             </tbody>
         </table>
     </div>
+}
+
+@if (Model.TotalPaginas > 1)
+{
+    <nav aria-label="Navegação entre páginas">
+        <ul class="pagination justify-content-center">
+            @if (Model.TemPaginaAnterior)
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-busca="@Model.Busca"
+                       asp-route-ordenacao="@Model.Ordenacao"
+                       asp-route-pagina="@(Model.PaginaAtual - 1)">
+                        Anterior
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Anterior</span>
+                </li>
+            }
+
+            @for (var numeroPagina = 1;
+                numeroPagina <= Model.TotalPaginas;
+                numeroPagina++)
+            {
+                <li class="page-item
+                    @(numeroPagina == Model.PaginaAtual ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-busca="@Model.Busca"
+                       asp-route-ordenacao="@Model.Ordenacao"
+                       asp-route-pagina="@numeroPagina">
+                        @numeroPagina
+                    </a>
+                </li>
+            }
+
+            @if (Model.TemProximaPagina)
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-busca="@Model.Busca"
+                       asp-route-ordenacao="@Model.Ordenacao"
+                       asp-route-pagina="@(Model.PaginaAtual + 1)">
+                        Próxima
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Próxima</span>
+                </li>
+            }
+        </ul>
+    </nav>
 }

@@ -17,10 +17,14 @@ public class ProdutoController : Controller
 
     // GET: /Produto
     // GET: /Produto
+    // GET: /Produto
     public async Task<IActionResult> Index(
         string? busca,
-        string? ordenacao)
+        string? ordenacao,
+        int pagina = 1)
     {
+        const int tamanhoPagina = 5;
+
         var consulta = _context.Produtos
             .AsNoTracking();
 
@@ -32,6 +36,8 @@ public class ProdutoController : Controller
                 produto => produto.Nome.Contains(busca));
         }
 
+        var totalProdutos = await consulta.CountAsync();
+
         var ordenacaoAtual = ordenacao switch
         {
             "nome_desc" => "nome_desc",
@@ -42,26 +48,55 @@ public class ProdutoController : Controller
 
         consulta = ordenacaoAtual switch
         {
-            "nome_desc" => consulta.OrderByDescending(
-                produto => produto.Nome),
+            "nome_desc" => consulta
+                .OrderByDescending(produto => produto.Nome)
+                .ThenBy(produto => produto.Id),
 
-            "preco_asc" => consulta.OrderBy(
-                produto => produto.Preco),
+            "preco_asc" => consulta
+                .OrderBy(produto => produto.Preco)
+                .ThenBy(produto => produto.Nome)
+                .ThenBy(produto => produto.Id),
 
-            "preco_desc" => consulta.OrderByDescending(
-                produto => produto.Preco),
+            "preco_desc" => consulta
+                .OrderByDescending(produto => produto.Preco)
+                .ThenBy(produto => produto.Nome)
+                .ThenBy(produto => produto.Id),
 
-            _ => consulta.OrderBy(
-                produto => produto.Nome)
+            _ => consulta
+                .OrderBy(produto => produto.Nome)
+                .ThenBy(produto => produto.Id)
         };
 
-        var produtos = await consulta.ToListAsync();
+        var totalPaginas = (int)Math.Ceiling(
+            totalProdutos / (double)tamanhoPagina);
+
+        if (pagina < 1)
+        {
+            pagina = 1;
+        }
+
+        if (totalPaginas == 0)
+        {
+            pagina = 1;
+        }
+        else if (pagina > totalPaginas)
+        {
+            pagina = totalPaginas;
+        }
+
+        var produtos = await consulta
+            .Skip((pagina - 1) * tamanhoPagina)
+            .Take(tamanhoPagina)
+            .ToListAsync();
 
         var viewModel = new ProdutoIndexViewModel
         {
             Produtos = produtos,
             Busca = busca,
-            Ordenacao = ordenacaoAtual
+            Ordenacao = ordenacaoAtual,
+            PaginaAtual = pagina,
+            TotalPaginas = totalPaginas,
+            TotalProdutos = totalProdutos
         };
 
         return View(viewModel);
