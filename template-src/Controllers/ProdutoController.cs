@@ -1,5 +1,6 @@
 using Desafio.Data;
 using Desafio.Models;
+using Desafio.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,13 +16,55 @@ public class ProdutoController : Controller
     }
 
     // GET: /Produto
-    public async Task<IActionResult> Index()
+    // GET: /Produto
+    public async Task<IActionResult> Index(
+        string? busca,
+        string? ordenacao)
     {
-        var produtos = await _context.Produtos
-            .AsNoTracking()
-            .ToListAsync();
+        var consulta = _context.Produtos
+            .AsNoTracking();
 
-        return View(produtos);
+        if (!string.IsNullOrWhiteSpace(busca))
+        {
+            busca = busca.Trim();
+
+            consulta = consulta.Where(
+                produto => produto.Nome.Contains(busca));
+        }
+
+        var ordenacaoAtual = ordenacao switch
+        {
+            "nome_desc" => "nome_desc",
+            "preco_asc" => "preco_asc",
+            "preco_desc" => "preco_desc",
+            _ => "nome_asc"
+        };
+
+        consulta = ordenacaoAtual switch
+        {
+            "nome_desc" => consulta.OrderByDescending(
+                produto => produto.Nome),
+
+            "preco_asc" => consulta.OrderBy(
+                produto => produto.Preco),
+
+            "preco_desc" => consulta.OrderByDescending(
+                produto => produto.Preco),
+
+            _ => consulta.OrderBy(
+                produto => produto.Nome)
+        };
+
+        var produtos = await consulta.ToListAsync();
+
+        var viewModel = new ProdutoIndexViewModel
+        {
+            Produtos = produtos,
+            Busca = busca,
+            Ordenacao = ordenacaoAtual
+        };
+
+        return View(viewModel);
     }
 
     // GET: /Produto/Create
@@ -51,7 +94,6 @@ public class ProdutoController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // GET: /Produto/Edit/5
     // GET: /Produto/Edit/5
     public async Task<IActionResult> Edit(int id)
     {
@@ -103,7 +145,6 @@ public class ProdutoController : Controller
     }
 
     // GET: /Produto/Details/5
-    // GET: /Produto/Details/5
     public async Task<IActionResult> Details(int id)
     {
         var produto = await _context.Produtos
@@ -118,7 +159,6 @@ public class ProdutoController : Controller
         return View(produto);
     }
 
-    // GET: /Produto/Delete/5
     // GET: /Produto/Delete/5
     public async Task<IActionResult> Delete(int id)
     {

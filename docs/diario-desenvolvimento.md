@@ -202,3 +202,62 @@ nesta etapa para manter a solução simples e proporcional ao desafio.
 O ChatGPT auxiliou na explicação do fluxo MVC, na implementação das ações do
 controller, na criação das Razor Views, na revisão das validações e na identificação
 do problema de cultura no campo de preço.
+## Etapa 5 — Busca e ordenação
+
+### ViewModel da listagem
+
+Foi criado o `ProdutoIndexViewModel` para reunir os produtos e as informações
+específicas da tela de listagem, como o texto de busca e a ordenação selecionada.
+
+O model `Produto` continua sendo utilizado diretamente nos formulários. O ViewModel
+foi usado apenas na listagem porque busca e ordenação são informações da interface e
+não fazem parte da tabela de produtos.
+
+O arquivo placeholder `ProdutoViewModel` foi removido para evitar código sem uso.
+
+### Busca por nome
+
+A busca utiliza o método `Contains`, permitindo encontrar produtos por parte do nome.
+
+O texto informado é tratado com `Trim` para remover espaços no começo e no final.
+O formulário utiliza GET, permitindo que a busca apareça na URL e possa ser repetida
+ou compartilhada.
+
+### Ordenação
+
+Foram implementadas quatro opções:
+
+- Nome de A até Z.
+- Nome de Z até A.
+- Preço do menor para o maior.
+- Preço do maior para o menor.
+
+Somente valores de ordenação conhecidos são aceitos pelo controller. Quando o valor
+recebido é inválido ou não informado, a aplicação utiliza nome de A até Z.
+
+A busca é aplicada antes da ordenação e a consulta só é executada no `ToListAsync`.
+Assim, o filtro e a ordenação são processados juntos pelo SQL Server.
+
+### Decisão de interface
+
+Inicialmente, a ordenação foi implementada por meio de links nos cabeçalhos e setas.
+Durante o teste, foi percebido que esse comportamento poderia não ser claro para
+todos os usuários.
+
+A interface foi alterada para usar um campo chamado `Ordenar por`, com as quatro
+opções escritas por extenso. Essa solução ficou mais simples de entender e demonstrar.
+
+### Testes realizados
+
+- Busca utilizando parte do nome.
+- Busca sem resultados.
+- Limpeza da busca.
+- Nome crescente e decrescente.
+- Preço crescente e decrescente.
+- Busca e ordenação utilizadas ao mesmo tempo.
+- Envio de um valor de ordenação inválido pela URL.
+
+### Uso de Inteligência Artificial
+
+O ChatGPT auxiliou na criação do ViewModel, na montagem da consulta com LINQ, na
+preservação conjunta dos filtros e na revisão da clareza dos controles da interface.

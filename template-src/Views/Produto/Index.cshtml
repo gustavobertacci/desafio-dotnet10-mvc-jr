@@ -1,4 +1,4 @@
-@model IEnumerable<Desafio.Models.Produto>
+@model Desafio.ViewModels.ProdutoIndexViewModel
 
 @{
     ViewData["Title"] = "Produtos";
@@ -19,11 +19,64 @@
     </div>
 }
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        Nenhum produto foi cadastrado.
+<form asp-action="Index" method="get" class="row g-3 mb-4">
+    <div class="col-md-6">
+        <label for="busca" class="form-label">
+            Buscar por nome
+        </label>
+
+        <input type="search"
+               id="busca"
+               name="busca"
+               value="@Model.Busca"
+               class="form-control"
+               placeholder="Digite parte do nome do produto" />
     </div>
+
+    <div class="col-md-4">
+        <label asp-for="Ordenacao" class="form-label">
+            Ordenar por
+        </label>
+
+        <select asp-for="Ordenacao" class="form-select">
+            <option value="nome_asc">Nome — A até Z</option>
+            <option value="nome_desc">Nome — Z até A</option>
+            <option value="preco_asc">Preço — menor para maior</option>
+            <option value="preco_desc">Preço — maior para menor</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-primary">
+            Aplicar
+        </button>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Busca)
+            || Model.Ordenacao != "nome_asc")
+        {
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
+                Limpar
+            </a>
+        }
+    </div>
+</form>
+
+@if (!Model.Produtos.Any())
+{
+    if (!string.IsNullOrWhiteSpace(Model.Busca))
+    {
+        <div class="alert alert-info">
+            Nenhum produto foi encontrado para a busca
+            "<strong>@Model.Busca</strong>".
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Nenhum produto foi cadastrado.
+        </div>
+    }
 }
 else
 {
@@ -38,14 +91,17 @@ else
                     <th>Ações</th>
                 </tr>
             </thead>
+
             <tbody>
-                @foreach (var produto in Model)
+                @foreach (var produto in Model.Produtos)
                 {
                     <tr>
                         <td>@produto.Nome</td>
                         <td>@produto.Descricao</td>
                         <td>@produto.Preco.ToString("C")</td>
-                        <td>@produto.DataCadastro.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            @produto.DataCadastro.ToString("dd/MM/yyyy HH:mm")
+                        </td>
                         <td>
                             <a asp-action="Details"
                                asp-route-id="@produto.Id"
