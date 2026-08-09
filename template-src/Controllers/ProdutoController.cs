@@ -16,8 +16,6 @@ public class ProdutoController : Controller
     }
 
     // GET: /Produto
-    // GET: /Produto
-    // GET: /Produto
     public async Task<IActionResult> Index(
         string? busca,
         string? ordenacao,

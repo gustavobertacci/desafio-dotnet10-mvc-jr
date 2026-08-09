@@ -155,6 +155,7 @@ Depois da correção, o valor `250,00` foi armazenado e exibido corretamente.
 
 Essa dificuldade mostrou a importância de manter a mesma regra de formato entre a
 validação do navegador e o processamento realizado pelo servidor.
+
 ### Detalhamento, edição e exclusão
 
 A página de detalhes foi implementada para mostrar todos os dados de um produto.
@@ -202,6 +203,7 @@ nesta etapa para manter a solução simples e proporcional ao desafio.
 O ChatGPT auxiliou na explicação do fluxo MVC, na implementação das ações do
 controller, na criação das Razor Views, na revisão das validações e na identificação
 do problema de cultura no campo de preço.
+
 ## Etapa 5 — Busca e ordenação
 
 ### ViewModel da listagem
@@ -261,6 +263,7 @@ opções escritas por extenso. Essa solução ficou mais simples de entender e d
 
 O ChatGPT auxiliou na criação do ViewModel, na montagem da consulta com LINQ, na
 preservação conjunta dos filtros e na revisão da clareza dos controles da interface.
+
 ## Etapa 6 — Funcionalidade adicional: paginação
 
 ### Motivo da escolha
@@ -328,3 +331,25 @@ desnecessariamente a complexidade do projeto.
 O ChatGPT auxiliou na explicação dos métodos `Count`, `Skip` e `Take`, na criação das
 propriedades de paginação no ViewModel, na preservação dos filtros nos links e na
 elaboração dos cenários de teste.
+
+## Etapa 7 — Revisão e dados de demonstração
+
+Foi realizada uma revisão dos principais arquivos publicados no GitHub.
+
+Durante a revisão, foram removidos comentários repetidos no `ProdutoController` e
+melhorada a descrição do `ApplicationDbContext`.
+
+O `.gitignore` foi atualizado para ignorar arquivos com extensão `.db`, atendendo
+explicitamente ao checklist da entrega, mesmo que a aplicação utilize SQL Server.
+
+O arquivo `database/seed.sql` foi preenchido com 12 produtos de exemplo. Os dados
+permitem testar rapidamente a busca, as ordenações e a paginação.
+
+O script verifica se a tabela já possui registros antes da inserção. Isso evita a
+duplicação dos produtos caso ele seja executado mais de uma vez.
+
+### Uso de Inteligência Artificial
+
+O ChatGPT foi utilizado para revisar os arquivos publicados, identificar comentários
+repetidos, conferir a configuração do projeto e auxiliar na criação do script de
+dados de demonstração.
