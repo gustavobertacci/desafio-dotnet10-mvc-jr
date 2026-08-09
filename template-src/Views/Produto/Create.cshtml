@@ -1,10 +1,71 @@
+@model Desafio.Models.Produto
+
 @{
-    ViewData["Title"] = "Novo Produto";
+    ViewData["Title"] = "Cadastrar produto";
 }
 
-<h1 class="h3">Novo Produto</h1>
+<h1>Cadastrar produto</h1>
 
-<div class="alert alert-warning" role="alert">
-    <strong>View não implementada.</strong>
-    Substitua este conteúdo pela sua implementação de <code>Create</code>.
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Nome" class="form-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Descricao" class="form-label"></label>
+                <textarea asp-for="Descricao"
+                          class="form-control"
+                          rows="4"></textarea>
+                <span asp-validation-for="Descricao"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Preco" class="form-label"></label>
+                <input asp-for="Preco"
+                       class="form-control"
+                       type="text"
+                       inputmode="decimal"
+                       placeholder="0,00" />
+                <span asp-validation-for="Preco"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Cadastrar
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary">
+                Voltar
+            </a>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $.validator.methods.number = function(value, element) {
+            return this.optional(element)
+                || /^\d+(,\d{1,2})?$/.test(value);
+        };
+
+        $.validator.methods.range = function(value, element, parameters) {
+            const numero = Number(value.replace(",", "."));
+
+            return this.optional(element)
+                || (numero >= parameters[0] && numero <= parameters[1]);
+        };
+    </script>
+}

@@ -1,10 +1,54 @@
+@model Desafio.Models.Produto
+
 @{
-    ViewData["Title"] = "Detalhes do Produto";
+    ViewData["Title"] = "Detalhes do produto";
 }
 
-<h1 class="h3">Detalhes do Produto</h1>
+<h1>Detalhes do produto</h1>
 
-<div class="alert alert-warning" role="alert">
-    <strong>View não implementada.</strong>
-    Substitua este conteúdo pela sua implementação de <code>Details</code>.
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">
+        Nome
+    </dt>
+    <dd class="col-sm-9">
+        @Model.Nome
+    </dd>
+
+    <dt class="col-sm-3">
+        Descrição
+    </dt>
+    <dd class="col-sm-9">
+        @(string.IsNullOrWhiteSpace(Model.Descricao)
+            ? "Não informada"
+            : Model.Descricao)
+    </dd>
+
+    <dt class="col-sm-3">
+        Preço
+    </dt>
+    <dd class="col-sm-9">
+        @Model.Preco.ToString("C")
+    </dd>
+
+    <dt class="col-sm-3">
+        Data de cadastro
+    </dt>
+    <dd class="col-sm-9">
+        @Model.DataCadastro.ToString("dd/MM/yyyy HH:mm")
+    </dd>
+</dl>
+
+<div>
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       class="btn btn-warning">
+        Editar
+    </a>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Voltar
+    </a>
 </div>

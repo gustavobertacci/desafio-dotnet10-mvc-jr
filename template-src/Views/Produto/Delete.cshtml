@@ -1,10 +1,49 @@
+@model Desafio.Models.Produto
+
 @{
-    ViewData["Title"] = "Excluir Produto";
+    ViewData["Title"] = "Excluir produto";
 }
 
-<h1 class="h3">Excluir Produto</h1>
+<h1>Excluir produto</h1>
 
-<div class="alert alert-warning" role="alert">
-    <strong>View não implementada.</strong>
-    Substitua este conteúdo pela sua implementação de <code>Delete</code>.
+<div class="alert alert-warning">
+    Tem certeza de que deseja excluir este produto?
+    Essa ação não poderá ser desfeita.
 </div>
+
+<dl class="row">
+    <dt class="col-sm-3">
+        Nome
+    </dt>
+    <dd class="col-sm-9">
+        @Model.Nome
+    </dd>
+
+    <dt class="col-sm-3">
+        Descrição
+    </dt>
+    <dd class="col-sm-9">
+        @(string.IsNullOrWhiteSpace(Model.Descricao)
+            ? "Não informada"
+            : Model.Descricao)
+    </dd>
+
+    <dt class="col-sm-3">
+        Preço
+    </dt>
+    <dd class="col-sm-9">
+        @Model.Preco.ToString("C")
+    </dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input asp-for="Id" type="hidden" />
+
+    <button type="submit" class="btn btn-danger">
+        Confirmar exclusão
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancelar
+    </a>
+</form>
