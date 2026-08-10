@@ -17,6 +17,13 @@ public class ProdutoController : Controller
         _context = context;
     }
 
+    private static string IdentificarProduto(string? nome)
+    {
+        return string.IsNullOrWhiteSpace(nome)
+            ? "Produto"
+            : $"Produto \"{nome.Trim()}\"";
+    }
+
     // GET: /Produto
     public async Task<IActionResult> Index(
         string? busca,
@@ -139,7 +146,7 @@ public class ProdutoController : Controller
             : 1;
 
         TempData["MensagemSucesso"] =
-             $"Produto \"{produto.Nome}\" cadastrado com sucesso.";
+              $"{IdentificarProduto(produto.Nome)} cadastrado com sucesso.";
 
         return RedirectToAction(
             nameof(Index),
@@ -193,7 +200,7 @@ public class ProdutoController : Controller
         await _context.SaveChangesAsync();
 
         TempData["MensagemSucesso"] =
-            $"Produto \"{produtoExistente.Nome}\" editado com sucesso.";
+            $"{IdentificarProduto(produtoExistente.Nome)} editado com sucesso.";
 
         return RedirectToAction(nameof(Index));
     }
@@ -246,7 +253,7 @@ public class ProdutoController : Controller
         await _context.SaveChangesAsync();
 
         TempData["MensagemSucesso"] =
-            $"Produto \"{nomeProduto}\" excluído com sucesso.";
+            $"{IdentificarProduto(nomeProduto)} excluído com sucesso.";
 
         return RedirectToAction(nameof(Index));
     }
