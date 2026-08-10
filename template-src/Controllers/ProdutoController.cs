@@ -139,7 +139,7 @@ public class ProdutoController : Controller
             : 1;
 
         TempData["MensagemSucesso"] =
-            "Produto cadastrado com sucesso.";
+             $"Produto \"{produto.Nome}\" cadastrado com sucesso.";
 
         return RedirectToAction(
             nameof(Index),
@@ -193,7 +193,7 @@ public class ProdutoController : Controller
         await _context.SaveChangesAsync();
 
         TempData["MensagemSucesso"] =
-            "Produto editado com sucesso.";
+            $"Produto \"{produtoExistente.Nome}\" editado com sucesso.";
 
         return RedirectToAction(nameof(Index));
     }
@@ -240,11 +240,13 @@ public class ProdutoController : Controller
             return NotFound();
         }
 
+        var nomeProduto = produto.Nome;
+
         _context.Produtos.Remove(produto);
         await _context.SaveChangesAsync();
 
         TempData["MensagemSucesso"] =
-            "Produto excluído com sucesso.";
+            $"Produto \"{nomeProduto}\" excluído com sucesso.";
 
         return RedirectToAction(nameof(Index));
     }
