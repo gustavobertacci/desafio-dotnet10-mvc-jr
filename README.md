@@ -92,7 +92,17 @@ Update-Database
 
 Não é necessário utilizar esta opção caso as migrations já tenham sido executadas.
 
-No SQL Server Management Studio, crie o banco:
+Abra o SQL Server Management Studio. Ao iniciar o programa, será exibida a janela **Conectar ao Servidor**. Informe:
+
+- Tipo de servidor: `Mecanismo de Banco de Dados`
+- Nome do servidor: `localhost\SQLEXPRESS`
+- Autenticação: `Autenticação do Windows`
+
+Clique em **Conectar**.
+
+Caso a janela não apareça automaticamente, no Pesquisador de Objetos selecione **Conectar > Mecanismo de Banco de Dados**.
+
+Depois da conexão, clique em **Nova Consulta**. A consulta pode ser executada com o banco `master` selecionado:
 
 ```sql
 IF DB_ID(N'DesafioProdutosDb') IS NULL
@@ -102,13 +112,20 @@ END;
 GO
 ```
 
-Selecione o banco `DesafioProdutosDb` e execute:
+Depois da criação, abra no SSMS o arquivo:
 
 ```text
 database/create_database.sql
 ```
 
-O script foi gerado a partir das migrations do Entity Framework Core.
+Na lista de bancos localizada na parte superior da janela de consulta, selecione `DesafioProdutosDb` e clique em **Executar**. Como alternativa, adicione ao início da consulta:
+
+```sql
+USE [DesafioProdutosDb];
+GO
+```
+
+O script cria a tabela `Produtos` e registra a migration na tabela `__EFMigrationsHistory`. Ele foi gerado a partir das migrations do Entity Framework Core.
 
 ### Dados de demonstração
 
