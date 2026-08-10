@@ -1,4 +1,4 @@
-# Diário de Desenvolvimento
+<img width="1431" height="430" alt="image" src="https://github.com/user-attachments/assets/69cfb42d-a3f7-40eb-b396-0111a36a7e0c" /># Diário de Desenvolvimento
 
 Este documento registra as etapas realizadas durante o desenvolvimento do desafio,
 as decisões técnicas tomadas, as validações executadas e os conhecimentos adquiridos.
@@ -325,6 +325,7 @@ Durante o teste, o comando `dotnet restore` apresentou ambiguidade porque a past
 
 ```powershell
 dotnet restore .\DesafioTecnico.sln
+```
 Depois da correção, foram validados:
 
 - Restauração dos pacotes.
