@@ -61,7 +61,7 @@ Caso a sua instância tenha outro nome, altere o valor de `Server`.
 Dentro de `template-src`, execute:
 
 ```bash
-dotnet restore
+dotnet restore .\DesafioTecnico.sln
 ```
 
 ### Opção 1 — Criar o banco com migrations

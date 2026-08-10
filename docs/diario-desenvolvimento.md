@@ -66,19 +66,6 @@ arquivo `Program.cs`.
 - A página inicial continuou funcionando depois da configuração do Entity Framework.
 - A conexão ainda não foi utilizada porque o banco será criado na próxima etapa.
 
-### Uso de Inteligência Artificial
-
-O ChatGPT foi utilizado nesta etapa para:
-
-- Explicar o funcionamento do Entity Framework Core.
-- Auxiliar na escolha da abordagem de acesso a dados.
-- Orientar a instalação dos pacotes NuGet.
-- Auxiliar na criação do `ApplicationDbContext`.
-- Explicar a connection string.
-- Auxiliar no registro do contexto no `Program.cs`.
-- Revisar a configuração e orientar sua validação.
-
-Todo o código adicionado foi acompanhado de explicações para garantir seu entendimento.
 
 ## Etapa 3 — Criação do banco de dados
 
@@ -120,10 +107,6 @@ na especificação do desafio.
 - Os tipos e a obrigatoriedade das colunas foram conferidos.
 - O script `create_database.sql` foi gerado e seu conteúdo foi revisado.
 
-### Uso de Inteligência Artificial
-
-O ChatGPT foi utilizado nesta etapa para explicar migrations, orientar a execução
-dos comandos, revisar a estrutura gerada e ajudar na conferência do script SQL.
 
 ## Etapa 4 — Listagem e cadastro de produtos
 
@@ -198,11 +181,6 @@ nesta etapa para manter a solução simples e proporcional ao desafio.
 - Exibição das mensagens de sucesso.
 - Entrada de preço utilizando vírgula.
 
-### Uso de Inteligência Artificial
-
-O ChatGPT auxiliou na explicação do fluxo MVC, na implementação das ações do
-controller, na criação das Razor Views, na revisão das validações e na identificação
-do problema de cultura no campo de preço.
 
 ## Etapa 5 — Busca e ordenação
 
@@ -259,10 +237,6 @@ opções escritas por extenso. Essa solução ficou mais simples de entender e d
 - Busca e ordenação utilizadas ao mesmo tempo.
 - Envio de um valor de ordenação inválido pela URL.
 
-### Uso de Inteligência Artificial
-
-O ChatGPT auxiliou na criação do ViewModel, na montagem da consulta com LINQ, na
-preservação conjunta dos filtros e na revisão da clareza dos controles da interface.
 
 ## Etapa 6 — Funcionalidade adicional: paginação
 
@@ -326,11 +300,6 @@ desnecessariamente a complexidade do projeto.
 - Página zero corrigida para a primeira página.
 - Página acima do total corrigida para a última página.
 
-### Uso de Inteligência Artificial
-
-O ChatGPT auxiliou na explicação dos métodos `Count`, `Skip` e `Take`, na criação das
-propriedades de paginação no ViewModel, na preservação dos filtros nos links e na
-elaboração dos cenários de teste.
 
 ## Etapa 7 — Revisão e dados de demonstração
 
@@ -348,8 +317,22 @@ permitem testar rapidamente a busca, as ordenações e a paginação.
 O script verifica se a tabela já possui registros antes da inserção. Isso evita a
 duplicação dos produtos caso ele seja executado mais de uma vez.
 
-### Uso de Inteligência Artificial
+## Revisão final e teste da entrega
 
-O ChatGPT foi utilizado para revisar os arquivos publicados, identificar comentários
-repetidos, conferir a configuração do projeto e auxiliar na criação do script de
-dados de demonstração.
+Foi realizado um teste a partir de um novo clone do repositório para simular a execução feita pelo avaliador.
+
+Durante o teste, o comando `dotnet restore` apresentou ambiguidade porque a pasta contém o arquivo da solução e o arquivo do projeto. A instrução do README foi corrigida para:
+
+```powershell
+dotnet restore .\DesafioTecnico.sln
+Depois da correção, foram validados:
+
+- Restauração dos pacotes.
+- Conexão com o SQL Server.
+- Execução das migrations.
+- Compilação da solução.
+- Inicialização da aplicação.
+- Listagem, busca, ordenação e paginação.
+- Exibição de valores e datas na cultura brasileira.
+
+A página inicial também foi atualizada. O conteúdo original ainda apresentava o projeto como um ponto de partida, então ele foi substituído por uma apresentação da solução concluída, com um resumo das funcionalidades e um botão de acesso à gestão de produtos.
