@@ -1,10 +1,10 @@
 @model Desafio.Models.Produto
 
 @{
-    ViewData["Title"] = "Editar produto";
+    ViewData["Title"] = "Editar Produto";
 }
 
-<h1>Editar produto</h1>
+<h1>Editar Produto</h1>
 
 <hr />
 
@@ -18,37 +18,56 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Nome" class="form-label"></label>
-                <input asp-for="Nome" class="form-control" />
+                <label asp-for="Nome"
+                       class="form-label">
+                </label>
+
+                <input asp-for="Nome"
+                       class="form-control" />
+
                 <span asp-validation-for="Nome"
-                      class="text-danger"></span>
+                      class="text-danger">
+                </span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Descricao" class="form-label"></label>
+                <label asp-for="Descricao"
+                       class="form-label">
+                </label>
+
                 <textarea asp-for="Descricao"
                           class="form-control"
                           rows="4"></textarea>
+
                 <span asp-validation-for="Descricao"
-                      class="text-danger"></span>
+                      class="text-danger">
+                </span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Preco" class="form-label"></label>
+                <label asp-for="Preco"
+                       class="form-label">
+                </label>
+
                 <input asp-for="Preco"
                        class="form-control"
                        type="text"
-                       inputmode="decimal"
+                       inputmode="numeric"
+                       data-mascara-preco="true"
                        placeholder="0,00" />
+
                 <span asp-validation-for="Preco"
-                      class="text-danger"></span>
+                      class="text-danger">
+                </span>
             </div>
 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit"
+                    class="btn btn-primary">
                 Salvar
             </button>
 
-            <a asp-action="Index" class="btn btn-secondary">
+            <a asp-action="Index"
+               class="btn btn-secondary">
                 Voltar
             </a>
         </form>
@@ -60,15 +79,26 @@
 
     <script>
         $.validator.methods.number = function (value, element) {
+            const valorSemPontos = value.replace(/\./g, "");
+
             return this.optional(element)
-                || /^\d+(,\d{1,2})?$/.test(value);
+                || /^\d+(,\d{1,2})?$/.test(valorSemPontos);
         };
 
-        $.validator.methods.range = function (value, element, parameters) {
-            const numero = Number(value.replace(",", "."));
+        $.validator.methods.range = function (
+            value,
+            element,
+            parameters
+        ) {
+            const numero = Number(
+                value.replace(/\./g, "").replace(",", ".")
+            );
 
             return this.optional(element)
-                || (numero >= parameters[0] && numero <= parameters[1]);
+                || (
+                    numero >= parameters[0]
+                    && numero <= parameters[1]
+                );
         };
     </script>
 }

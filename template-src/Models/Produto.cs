@@ -14,7 +14,12 @@ public class Produto
     [Display(Name = "Descrição")]
     public string? Descricao { get; set; }
 
-    [Range(0.01, double.MaxValue, ErrorMessage = "O preço deve ser maior que zero.")]
+    [Required(ErrorMessage = "O preço é obrigatório.")]
+    [Range(
+        0.01,
+        double.MaxValue,
+        ErrorMessage = "O preço deve ser maior que zero."
+    )]
     [Display(Name = "Preço")]
     public decimal Preco { get; set; }
 

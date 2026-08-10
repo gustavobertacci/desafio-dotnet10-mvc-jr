@@ -8,6 +8,8 @@ namespace Desafio.Controllers;
 
 public class ProdutoController : Controller
 {
+    private const int TamanhoPagina = 5;
+
     private readonly ApplicationDbContext _context;
 
     public ProdutoController(ApplicationDbContext context)
@@ -21,8 +23,6 @@ public class ProdutoController : Controller
         string? ordenacao,
         int pagina = 1)
     {
-        const int tamanhoPagina = 5;
-
         var consulta = _context.Produtos
             .AsNoTracking();
 
@@ -66,7 +66,7 @@ public class ProdutoController : Controller
         };
 
         var totalPaginas = (int)Math.Ceiling(
-            totalProdutos / (double)tamanhoPagina);
+            totalProdutos / (double)TamanhoPagina);
 
         if (pagina < 1)
         {
@@ -83,8 +83,8 @@ public class ProdutoController : Controller
         }
 
         var produtos = await consulta
-            .Skip((pagina - 1) * tamanhoPagina)
-            .Take(tamanhoPagina)
+            .Skip((pagina - 1) * TamanhoPagina)
+            .Take(TamanhoPagina)
             .ToListAsync();
 
         var viewModel = new ProdutoIndexViewModel
@@ -122,9 +122,28 @@ public class ProdutoController : Controller
         _context.Produtos.Add(produto);
         await _context.SaveChangesAsync();
 
-        TempData["MensagemSucesso"] = "Produto cadastrado com sucesso.";
+        // Recupera os IDs na mesma ordenação padrão da listagem.
+        var idsOrdenados = await _context.Produtos
+            .AsNoTracking()
+            .OrderBy(item => item.Nome)
+            .ThenBy(item => item.Id)
+            .Select(item => item.Id)
+            .ToListAsync();
 
-        return RedirectToAction(nameof(Index));
+        // Descobre a posição do produto dentro da lista ordenada.
+        var posicaoProduto = idsOrdenados.IndexOf(produto.Id);
+
+        // Calcula a página em que o produto será exibido.
+        var paginaProduto = posicaoProduto >= 0
+            ? (posicaoProduto / TamanhoPagina) + 1
+            : 1;
+
+        TempData["MensagemSucesso"] =
+            "Produto cadastrado com sucesso.";
+
+        return RedirectToAction(
+            nameof(Index),
+            new { pagina = paginaProduto });
     }
 
     // GET: /Produto/Edit/5
@@ -159,7 +178,8 @@ public class ProdutoController : Controller
             return View(produto);
         }
 
-        var produtoExistente = await _context.Produtos.FindAsync(id);
+        var produtoExistente =
+            await _context.Produtos.FindAsync(id);
 
         if (produtoExistente is null)
         {
@@ -172,7 +192,8 @@ public class ProdutoController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["MensagemSucesso"] = "Produto editado com sucesso.";
+        TempData["MensagemSucesso"] =
+            "Produto editado com sucesso.";
 
         return RedirectToAction(nameof(Index));
     }
@@ -222,7 +243,8 @@ public class ProdutoController : Controller
         _context.Produtos.Remove(produto);
         await _context.SaveChangesAsync();
 
-        TempData["MensagemSucesso"] = "Produto excluído com sucesso.";
+        TempData["MensagemSucesso"] =
+            "Produto excluído com sucesso.";
 
         return RedirectToAction(nameof(Index));
     }
